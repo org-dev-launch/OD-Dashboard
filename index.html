@@ -6,29 +6,39 @@
 <title>OD Manager Dashboard — Launch Housing</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F4F0;color:#1a1a1a;min-height:100vh;padding:2rem 1rem;}
-.container{max-width:800px;margin:0 auto;}
-.header-band{background:#00326E;border-radius:12px;padding:20px 24px;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#1a1a1a;min-height:100vh;padding:2rem 1rem;}
+.container{max-width:800px;margin:0 auto;background:#F7F6F2;border-radius:16px;padding:2rem;box-shadow:0 2px 24px rgba(0,0,0,0.07);}
+.header-band{background:#00326E;border-radius:12px;padding:20px 24px;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
 .header-title{font-size:18px;font-weight:500;color:#fff;margin-bottom:3px;}
 .header-sub{font-size:12px;color:#9FC4E8;}
+.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .save-pill{font-size:11px;font-weight:500;color:#9FC4E8;background:rgba(255,255,255,0.12);border-radius:20px;padding:5px 14px;opacity:0;transition:opacity 0.3s;white-space:nowrap;}
 .save-pill.show{opacity:1;color:#5DCAA5;}
+.hdr-btn{font-size:11px;font-weight:500;padding:6px 13px;border-radius:20px;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:#fff;}
+.hdr-btn:hover{background:rgba(255,255,255,0.2);}
 .sec{margin-bottom:2rem;}
 .sec-label{font-size:11px;font-weight:600;color:#00326E;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .sec-label::after{content:'';flex:1;height:1px;background:#E5E4E0;}
 .add-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
-.add-row input{flex:1;min-width:150px;font-size:13px;padding:9px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;}
-.add-row input:focus{outline:none;border-color:#00BAD2;}
+.add-row input[type=text]{flex:1;min-width:150px;font-size:13px;padding:9px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;}
+.add-row input[type=text]:focus{outline:none;border-color:#00BAD2;}
+.add-row input[type=date]{font-size:13px;padding:9px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#888;width:140px;}
+.add-row input[type=date]:focus{outline:none;border-color:#00BAD2;}
 .add-row select{font-size:13px;padding:9px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;}
 .add-row button{font-size:13px;padding:9px 16px;border:none;border-radius:8px;background:#00326E;color:#fff;cursor:pointer;font-weight:500;white-space:nowrap;}
 .add-row button:hover{background:#002558;}
 .todo-item{display:flex;align-items:center;gap:10px;padding:10px 13px;background:#fff;border:1px solid #E8E7E3;border-radius:8px;margin-bottom:5px;}
 .todo-item:hover{border-color:#ccc;}
+.todo-item.overdue{border-left:3px solid #A32D2D;}
 .chk{width:17px;height:17px;border-radius:4px;border:1.5px solid #ccc;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .chk.done{background:#00BAD2;border-color:#00BAD2;}
 .chk.done::after{content:'';display:block;width:5px;height:8px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(40deg) translateY(-1px);}
 .todo-label{flex:1;font-size:13px;color:#1a1a1a;}
 .todo-label.done{text-decoration:line-through;color:#aaa;}
+.todo-due{font-size:11px;white-space:nowrap;padding:2px 8px;border-radius:20px;font-weight:500;}
+.due-normal{background:#F0F0EE;color:#888;}
+.due-soon{background:#FAEEDA;color:#633806;}
+.due-overdue{background:#FCEBEB;color:#791F1F;}
 .badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;}
 .tag-bau{background:#E6F1FB;color:#0C447C;}
 .tag-meeting{background:#EEEDFE;color:#3C3489;}
@@ -45,28 +55,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.5rem;}
 @media(max-width:500px){.metrics{grid-template-columns:repeat(2,1fr);}}
 .metric{background:#fff;border:1px solid #E8E7E3;border-radius:8px;padding:13px 15px;border-top:3px solid #ddd;}
-.metric.m-navy{border-top-color:#00326E;}
-.metric.m-aqua{border-top-color:#00BAD2;}
-.metric.m-red{border-top-color:#A32D2D;}
-.metric.m-green{border-top-color:#0F6E56;}
+.metric.m-navy{border-top-color:#00326E;}.metric.m-aqua{border-top-color:#00BAD2;}.metric.m-red{border-top-color:#A32D2D;}.metric.m-green{border-top-color:#0F6E56;}
 .metric-label{font-size:11px;color:#aaa;margin-bottom:5px;}
 .metric-value{font-size:24px;font-weight:500;color:#1a1a1a;}
 .legend{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
 .leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#888;}
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .proj-card{background:#fff;border:1px solid #E8E7E3;border-radius:10px;padding:15px 17px;margin-bottom:8px;border-left:3px solid #E8E7E3;}
-.proj-card.fixed{border-left-color:#00326E;}
-.proj-card.flex{border-left-color:#00BAD2;}
-.proj-card:hover{border-color:#ccc;border-left-color:inherit;}
+.proj-card.fixed{border-left-color:#00326E;}.proj-card.flex{border-left-color:#00BAD2;}
+.proj-card:hover{border-color:#ccc;}
 .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;}
 .proj-name{font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:3px;}
 .due-edit-input{font-size:11px;color:#aaa;background:none;border:none;border-bottom:1px solid transparent;padding:1px 0;outline:none;width:100%;max-width:280px;}
 .due-edit-input:focus{border-bottom-color:#ddd;color:#1a1a1a;}
 .card-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .type-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;}
-.badge-fixed{background:#E6F1FB;color:#0C447C;}
-.badge-flex{background:#E1F5EE;color:#085041;}
+.badge-fixed{background:#E6F1FB;color:#0C447C;}.badge-flex{background:#E1F5EE;color:#085041;}
 .pct{font-size:12px;font-weight:500;color:#aaa;min-width:30px;text-align:right;}
+.proj-del-btn{background:none;border:none;cursor:pointer;color:#ccc;font-size:14px;padding:2px 4px;border-radius:4px;}
+.proj-del-btn:hover{color:#c0392b;}
 .prog-bar{height:5px;background:#eee;border-radius:3px;overflow:hidden;margin-bottom:9px;}
 .prog-fill{height:100%;border-radius:3px;transition:width 0.3s;}
 .toggle-btn{font-size:11px;color:#aaa;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;gap:4px;}
@@ -75,7 +82,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .toggle-btn.open svg{transform:rotate(180deg);}
 .ms-list{display:none;margin-top:10px;border-top:1px solid #f0efeb;padding-top:10px;}
 .ms-list.open{display:block;}
-.ms-row{display:flex;align-items:center;gap:8px;padding:4px 0;}
+.ms-row{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:default;}
+.ms-row.dragging{opacity:0.4;}
+.ms-row.drag-over{border-top:2px solid #00BAD2;}
+.drag-handle{cursor:grab;color:#aaa;font-size:14px;flex-shrink:0;padding:0 2px;user-select:none;}
+.drag-handle:hover{color:#555;}
 .ms-chk{width:15px;height:15px;border-radius:50%;border:1.5px solid #ccc;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .ms-chk.done{background:#00BAD2;border-color:#00BAD2;}
 .ms-chk.done::after{content:'';display:block;width:4px;height:7px;border:1.5px solid #fff;border-top:none;border-left:none;transform:rotate(40deg) translateY(-1px);}
@@ -87,12 +98,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .ms-del-btn{background:none;border:none;cursor:pointer;color:#ddd;font-size:14px;padding:0;line-height:1;flex-shrink:0;}
 .ms-del-btn:hover{color:#c0392b;}
 .add-ms-row{display:flex;gap:6px;margin-top:10px;padding-top:9px;border-top:1px dashed #eee;align-items:center;}
-.add-ms-input{flex:1;font-size:12px;color:#1a1a1a;background:#F5F4F0;border:1px solid #E8E7E3;border-radius:6px;padding:5px 9px;outline:none;}
+.add-ms-input{flex:1;font-size:12px;color:#1a1a1a;background:#EEECEA;border:1px solid #E8E7E3;border-radius:6px;padding:5px 9px;outline:none;}
 .add-ms-input:focus{border-color:#00BAD2;}
-.add-ms-due{width:60px;font-size:11px;color:#1a1a1a;background:#F5F4F0;border:1px solid #E8E7E3;border-radius:6px;padding:5px 7px;outline:none;}
-.add-ms-btn{font-size:11px;padding:5px 12px;border:none;border-radius:6px;background:#00326E;color:#fff;cursor:pointer;font-weight:500;white-space:nowrap;}
+.add-ms-due{width:60px;font-size:11px;color:#1a1a1a;background:#EEECEA;border:1px solid #E8E7E3;border-radius:6px;padding:5px 7px;outline:none;}
+.add-ms-btn{font-size:11px;padding:5px 12px;border:none;border-radius:6px;background:#00326E;color:#fff;cursor:pointer;font-weight:500;}
 .add-ms-btn:hover{background:#002558;}
-.note{font-size:11px;color:#bbb;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #E8E7E3;}
+.new-proj-form{background:#EEECEA;border:1px solid #ddd;border-radius:10px;padding:14px 16px;margin-bottom:10px;display:none;}
+.new-proj-form.open{display:block;}
+.form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.form-row input,.form-row select{flex:1;min-width:120px;font-size:13px;padding:9px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;outline:none;}
+.form-row input:focus,.form-row select:focus{border-color:#00BAD2;}
+.form-btns{display:flex;gap:8px;justify-content:flex-end;}
+.btn-cancel{font-size:12px;padding:7px 14px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;cursor:pointer;}
+.btn-save{font-size:12px;padding:7px 14px;border:none;border-radius:8px;background:#00326E;color:#fff;cursor:pointer;font-weight:500;}
+.btn-save:hover{background:#002558;}
+.add-proj-btn{font-size:12px;padding:10px 14px;border:1px dashed #ccc;border-radius:8px;background:transparent;color:#aaa;cursor:pointer;width:100%;text-align:center;margin-top:4px;}
+.add-proj-btn:hover{border-color:#00326E;color:#00326E;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.modal{background:#fff;border-radius:12px;padding:22px 24px;width:100%;max-width:440px;box-shadow:0 8px 32px rgba(0,0,0,0.15);}
+.modal h3{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:6px;}
+.modal p{font-size:12px;color:#888;margin-bottom:14px;line-height:1.5;}
+.modal textarea{width:100%;height:130px;font-size:11px;font-family:monospace;padding:10px;border:1px solid #ddd;border-radius:8px;background:#F5F4F0;color:#1a1a1a;resize:vertical;outline:none;}
+.modal-btns{display:flex;gap:8px;margin-top:12px;justify-content:flex-end;flex-wrap:wrap;}
+.modal-btns button{font-size:12px;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:500;}
+.btn-ghost{border:1px solid #ddd;background:#fff;color:#1a1a1a;}
+.btn-primary{border:none;background:#00326E;color:#fff;}
+.btn-primary:hover{background:#002558;}
+.note{font-size:11px;color:#bbb;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #E8E7E3;line-height:1.6;}
 </style>
 </head>
 <body>
@@ -103,13 +135,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="header-title">OD Manager Dashboard</div>
     <div class="header-sub">Launch Housing &middot; Organisational Development</div>
   </div>
-  <span class="save-pill" id="save-ind">&#10003; Saved</span>
+  <div class="header-actions">
+    <span class="save-pill" id="save-ind">&#10003; Saved</span>
+    <button class="hdr-btn" onclick="openExport()">&#8595; Export data</button>
+    <button class="hdr-btn" onclick="openImport()">&#8593; Import data</button>
+  </div>
 </div>
 
 <div class="sec">
   <div class="sec-label">&#9745; To-do list</div>
   <div class="add-row">
     <input type="text" id="ti" placeholder="Add a task&hellip;" />
+    <input type="date" id="td" title="Optional due date" />
     <select id="tt"><option value="bau">BAU</option><option value="meeting">Meeting</option><option value="project">Project</option></select>
     <button onclick="addTodo()">+ Add</button>
   </div>
@@ -124,8 +161,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="sec">
   <div class="sec-label">&#128202; Overview</div>
   <div class="metrics">
-    <div class="metric m-navy"><div class="metric-label">Projects</div><div class="metric-value">7</div></div>
-    <div class="metric m-red"><div class="metric-label">Fixed deadlines</div><div class="metric-value" style="color:#A32D2D">3</div></div>
+    <div class="metric m-navy"><div class="metric-label">Projects</div><div class="metric-value" id="proj-count">0</div></div>
+    <div class="metric m-red"><div class="metric-label">Fixed deadlines</div><div class="metric-value" style="color:#A32D2D" id="fixed-count">0</div></div>
     <div class="metric m-green"><div class="metric-label">Milestones done</div><div class="metric-value" style="color:#0F6E56" id="done-count">0</div></div>
     <div class="metric m-aqua"><div class="metric-label">Overall progress</div><div class="metric-value" id="overall-pct">0%</div></div>
   </div>
@@ -138,71 +175,71 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="leg-item"><div class="leg-dot" style="background:#00BAD2"></div>Flexible</div>
   </div>
   <div id="proj-list"></div>
+  <div class="new-proj-form" id="new-proj-form">
+    <div class="form-row">
+      <input type="text" id="np-name" placeholder="Project name&hellip;" />
+      <select id="np-type"><option value="fixed">Fixed deadline</option><option value="flex">Flexible</option></select>
+    </div>
+    <div class="form-row">
+      <input type="text" id="np-due" placeholder="Due date / notes e.g. Complete end Aug &middot; For Sep PDR" />
+    </div>
+    <div class="form-btns">
+      <button class="btn-cancel" onclick="closeNewProj()">Cancel</button>
+      <button class="btn-save" onclick="saveNewProj()">Add project</button>
+    </div>
+  </div>
+  <button class="add-proj-btn" id="add-proj-btn" onclick="openNewProj()">+ Add new project</button>
 </div>
 
-<p class="note">Click any milestone text or date to edit &middot; Use &ldquo;+ add&rdquo; to add new milestones &middot; Click the date under a project name to edit it &middot; All changes save automatically to this browser</p>
+<p class="note">Drag &#8286; handles to reorder milestones &middot; Click any text or date to edit &middot; Export your data regularly as a backup &middot; Import to restore after a cache clear &middot; All changes save automatically to this browser</p>
+
+<div class="modal-overlay" id="modal" style="display:none;">
+  <div class="modal">
+    <h3 id="modal-title">Export data</h3>
+    <p id="modal-desc">Copy this JSON and save it somewhere safe. Use Import to restore it.</p>
+    <textarea id="modal-ta" spellcheck="false"></textarea>
+    <div class="modal-btns">
+      <button class="btn-ghost" onclick="closeModal()">Close</button>
+      <button class="btn-primary" id="modal-action-btn" onclick="modalAction()">Copy to clipboard</button>
+    </div>
+  </div>
 </div>
 
+</div>
 <script>
 var projects=[
   {id:'transport',name:'Safe Transportation eLearning',type:'fixed',color:'#00326E',due:'Complete 11 Jul \u00b7 Roll out 21 Jul',ms:[
-    {t:'Client review of prototype',d:'25 Jun',done:false},
-    {t:'Incorporate client feedback',d:'4 Jul',done:false},
-    {t:'Final QA and sign-off',d:'9 Jul',done:false},
-    {t:'Module complete and ready',d:'11 Jul',done:false},
-    {t:'Roll out to all staff',d:'21 Jul',done:false}
-  ]},
+    {t:'Client review of prototype',d:'25 Jun',done:false},{t:'Incorporate client feedback',d:'4 Jul',done:false},
+    {t:'Final QA and sign-off',d:'9 Jul',done:false},{t:'Module complete and ready',d:'11 Jul',done:false},{t:'Roll out to all staff',d:'21 Jul',done:false}]},
   {id:'skills',name:'Skills Mapping',type:'fixed',color:'#00326E',due:'Complete end Aug \u00b7 Tool ready Sep',ms:[
-    {t:'Feedback on role profiles / skills complete',d:'Jul wk 1',done:false},
-    {t:'Incorporate feedback into framework',d:'mid Jul',done:false},
-    {t:'Draft Workforce Skills Career Pathways tool',d:'late Jul',done:false},
-    {t:'Review and refine tool',d:'Aug',done:false},
-    {t:'Tool finalised \u2014 ready for September',d:'end Aug',done:false}
-  ]},
+    {t:'Feedback on role profiles / skills complete',d:'Jul wk 1',done:false},{t:'Incorporate feedback into framework',d:'mid Jul',done:false},
+    {t:'Draft Workforce Skills Career Pathways tool',d:'late Jul',done:false},{t:'Review and refine tool',d:'Aug',done:false},{t:'Tool finalised \u2014 ready for September',d:'end Aug',done:false}]},
   {id:'leadership',name:'Leadership Assessments',type:'fixed',color:'#00326E',due:'Complete end Aug \u00b7 For Sep PDR',ms:[
-    {t:'Prototype review and feedback',d:'late Jun',done:false},
-    {t:'Finalise assessment design',d:'mid Jul',done:false},
-    {t:'Build assessment tool and materials',d:'late Jul',done:false},
-    {t:'Brief managers on process',d:'Aug',done:false},
-    {t:'Assessment ready for September PDR',d:'end Aug',done:false}
-  ]},
+    {t:'Prototype review and feedback',d:'late Jun',done:false},{t:'Finalise assessment design',d:'mid Jul',done:false},
+    {t:'Build assessment tool and materials',d:'late Jul',done:false},{t:'Brief managers on process',d:'Aug',done:false},{t:'Assessment ready for September PDR',d:'end Aug',done:false}]},
   {id:'induction',name:'Induction Refresh',type:'fixed',color:'#00326E',due:'Phase 1: Aug \u00b7 Phase 2: mid Dec',ms:[
-    {t:'Audit content and identify priority gaps',d:'Jul',done:false},
-    {t:'Phase 1: update critical content',d:'late Jul',done:false},
-    {t:'Phase 1 ready for August cohort',d:'Aug',done:false},
-    {t:'Phase 2: redesign remaining content',d:'Oct\u2013Nov',done:false},
-    {t:'Phase 2 finalised for February induction',d:'mid Dec',done:false}
-  ]},
+    {t:'Audit content and identify priority gaps',d:'Jul',done:false},{t:'Phase 1: update critical content',d:'late Jul',done:false},
+    {t:'Phase 1 ready for August cohort',d:'Aug',done:false},{t:'Phase 2: redesign remaining content',d:'Oct\u2013Nov',done:false},{t:'Phase 2 finalised for February induction',d:'mid Dec',done:false}]},
   {id:'pdr',name:'Performance Development Reviews',type:'flex',color:'#00BAD2',due:'Sep 2026 cycle',ms:[
-    {t:'Review current PDR templates and process',d:'Jul',done:false},
-    {t:'Consult with managers on pain points',d:'Jul',done:false},
-    {t:'Draft revised framework',d:'Aug',done:false},
-    {t:'Pilot with 1\u20132 teams',d:'Aug',done:false},
-    {t:'Finalise and communicate to all staff',d:'Sep',done:false}
-  ]},
+    {t:'Review current PDR templates and process',d:'Jul',done:false},{t:'Consult with managers on pain points',d:'Jul',done:false},
+    {t:'Draft revised framework',d:'Aug',done:false},{t:'Pilot with 1\u20132 teams',d:'Aug',done:false},{t:'Finalise and communicate to all staff',d:'Sep',done:false}]},
   {id:'board',name:'Board Training',type:'flex',color:'#00BAD2',due:'Nov 2026',ms:[
-    {t:'Confirm training needs with board chair',d:'Aug',done:false},
-    {t:'Design session outline and materials',d:'Sep',done:false},
-    {t:'Brief relevant stakeholders',d:'Oct',done:false},
-    {t:'Deliver training session',d:'Nov',done:false},
-    {t:'Gather feedback and document outcomes',d:'Nov',done:false}
-  ]},
+    {t:'Confirm training needs with board chair',d:'Aug',done:false},{t:'Design session outline and materials',d:'Sep',done:false},
+    {t:'Brief relevant stakeholders',d:'Oct',done:false},{t:'Deliver training session',d:'Nov',done:false},{t:'Gather feedback and document outcomes',d:'Nov',done:false}]},
   {id:'language',name:'Embedding Inclusive Language Guide',type:'flex',color:'#00BAD2',due:'Dec 2026',ms:[
-    {t:'Finalise and sign off the language guide',d:'Jul',done:false},
-    {t:'Plan embedding strategy',d:'Aug',done:false},
-    {t:'Develop supporting resources and comms',d:'Sep',done:false},
-    {t:'Launch organisation-wide',d:'Oct',done:false},
-    {t:'Review uptake and embed in onboarding',d:'Dec',done:false}
-  ]}
+    {t:'Finalise and sign off the language guide',d:'Jul',done:false},{t:'Plan embedding strategy',d:'Aug',done:false},
+    {t:'Develop supporting resources and comms',d:'Sep',done:false},{t:'Launch organisation-wide',d:'Oct',done:false},{t:'Review uptake and embed in onboarding',d:'Dec',done:false}]},
+  {id:'leadershiphub',name:'Leadership Hub',type:'flex',color:'#00BAD2',due:'TBC',ms:[
+    {t:'Define scope and purpose of Leadership Hub',d:'Jul',done:false},{t:'Identify content and resources to include',d:'Aug',done:false},
+    {t:'Design structure and format',d:'Aug',done:false},{t:'Build and populate Leadership Hub',d:'Sep',done:false},{t:'Launch and communicate to leaders',d:'Oct',done:false}]}
 ];
-
 var todos=[],tid=0,focusValues={};
-
-function showSaved(){
-  var el=document.getElementById('save-ind');
-  el.classList.add('show');
-  setTimeout(function(){el.classList.remove('show');},1800);
-}
+var TODAY=new Date();TODAY.setHours(0,0,0,0);
+var SOON=new Date(TODAY);SOON.setDate(SOON.getDate()+3);
+var modalMode='export';
+var dragSrcPid=null,dragSrcIdx=null;
+function uid(){return 'p'+Date.now()+Math.floor(Math.random()*1000);}
+function showSaved(){var el=document.getElementById('save-ind');el.classList.add('show');setTimeout(function(){el.classList.remove('show');},1800);}
 function saveAll(){
   try{
     localStorage.setItem('od-todos',JSON.stringify({todos:todos,tid:tid}));
@@ -215,86 +252,118 @@ function loadAll(){
   try{var d=localStorage.getItem('od-todos');if(d){var p=JSON.parse(d);todos=p.todos||[];tid=p.tid||0;}}catch(e){}
   try{var m=localStorage.getItem('od-projects');if(m){var ps=JSON.parse(m);if(ps&&ps.length)projects=ps;}}catch(e){}
   try{var f=localStorage.getItem('od-focus');if(f){focusValues=JSON.parse(f)||{};}}catch(e){}
-  renderTodos();renderFocus();renderProjects();updateMetrics();
+  renderAll();
 }
-
+function renderAll(){renderTodos();renderFocus();renderProjects();updateMetrics();}
+function allData(){return{todos:todos,tid:tid,projects:projects,focusValues:focusValues};}
+function openExport(){
+  modalMode='export';
+  document.getElementById('modal-title').textContent='Export data';
+  document.getElementById('modal-desc').textContent='Copy this JSON and save it somewhere safe. Use Import to restore it.';
+  document.getElementById('modal-ta').value=JSON.stringify(allData(),null,2);
+  document.getElementById('modal-action-btn').textContent='Copy to clipboard';
+  document.getElementById('modal').style.display='flex';
+}
+function openImport(){
+  modalMode='import';
+  document.getElementById('modal-title').textContent='Import data';
+  document.getElementById('modal-desc').textContent='Paste your previously exported JSON here and click Import. This will replace all current data.';
+  document.getElementById('modal-ta').value='';
+  document.getElementById('modal-action-btn').textContent='Import & restore';
+  document.getElementById('modal').style.display='flex';
+}
+function closeModal(){document.getElementById('modal').style.display='none';}
+function modalAction(){
+  if(modalMode==='export'){
+    navigator.clipboard.writeText(document.getElementById('modal-ta').value).then(function(){
+      document.getElementById('modal-action-btn').textContent='Copied!';
+      setTimeout(function(){document.getElementById('modal-action-btn').textContent='Copy to clipboard';},2000);
+    });
+  }else{
+    try{
+      var d=JSON.parse(document.getElementById('modal-ta').value);
+      if(d.projects&&d.todos!==undefined){todos=d.todos||[];tid=d.tid||0;projects=d.projects||[];focusValues=d.focusValues||{};saveAll();renderAll();closeModal();}
+      else{alert('Invalid data \u2014 please paste a valid export.');}
+    }catch(e){alert('Could not parse JSON. Please check the data and try again.');}
+  }
+}
+function dueMeta(ds){
+  if(!ds)return null;
+  var d=new Date(ds);d.setHours(0,0,0,0);
+  if(d<TODAY)return{label:'Overdue',cls:'due-overdue',overdue:true};
+  if(d<=SOON)return{label:fmtDate(d),cls:'due-soon',overdue:false};
+  return{label:fmtDate(d),cls:'due-normal',overdue:false};
+}
+function fmtDate(d){return d.toLocaleDateString('en-AU',{day:'numeric',month:'short'});}
 function addTodo(){
-  var input=document.getElementById('ti'),type=document.getElementById('tt').value,text=input.value.trim();
-  if(!text)return;
-  todos.push({id:tid++,text:text,type:type,done:false});
-  input.value='';renderTodos();saveAll();
+  var input=document.getElementById('ti'),dateEl=document.getElementById('td'),type=document.getElementById('tt').value;
+  var text=input.value.trim();if(!text)return;
+  todos.push({id:tid++,text:text,type:type,due:dateEl.value||'',done:false});
+  input.value='';dateEl.value='';renderTodos();saveAll();
 }
 document.getElementById('ti').addEventListener('keydown',function(e){if(e.key==='Enter')addTodo();});
 function toggleTodo(id){var t=todos.find(function(x){return x.id===id;});if(t){t.done=!t.done;renderTodos();saveAll();}}
 function deleteTodo(id){todos=todos.filter(function(x){return x.id!==id;});renderTodos();saveAll();}
 function renderTodos(){
   var list=document.getElementById('todo-list');
-  var all=todos.filter(function(t){return !t.done;}).concat(todos.filter(function(t){return t.done;}));
+  var active=todos.filter(function(t){return !t.done;});
+  active.sort(function(a,b){if(!a.due&&!b.due)return 0;if(!a.due)return 1;if(!b.due)return -1;return new Date(a.due)-new Date(b.due);});
+  var all=active.concat(todos.filter(function(t){return t.done;}));
   if(!all.length){list.innerHTML='<p class="empty-msg">No tasks yet \u2014 add one above.</p>';return;}
   var tagMap={bau:['tag-bau','BAU'],meeting:['tag-meeting','Meeting'],project:['tag-project','Project']};
   list.innerHTML=all.map(function(t){
-    var tag=tagMap[t.type];
-    return '<div class="todo-item">'
+    var tag=tagMap[t.type];var dm=!t.done?dueMeta(t.due):null;
+    var duePill=dm?'<span class="todo-due '+dm.cls+'">'+dm.label+'</span>':'';
+    return '<div class="todo-item'+(dm&&dm.overdue?' overdue':'')+'">'
       +'<div class="chk'+(t.done?' done':'')+'" onclick="toggleTodo('+t.id+')" style="cursor:pointer"></div>'
       +'<span class="todo-label'+(t.done?' done':'')+'">'+t.text+'</span>'
-      +'<span class="badge '+tag[0]+'">'+tag[1]+'</span>'
+      +duePill+'<span class="badge '+tag[0]+'">'+tag[1]+'</span>'
       +'<button class="del-btn" onclick="deleteTodo('+t.id+')">&times;</button>'
       +'</div>';
   }).join('');
 }
-
 function renderFocus(){
   var grid=document.getElementById('focus-grid');
   grid.innerHTML=projects.map(function(p){
     var name=p.name.length>28?p.name.slice(0,26)+'\u2026':p.name;
     var val=(focusValues[p.id]||'').replace(/"/g,'&quot;');
-    return '<div class="focus-card">'
-      +'<div class="focus-project">'+name+'</div>'
-      +'<input class="focus-input" type="text" placeholder="One thing this week\u2026" value="'+val+'" oninput="saveFocus(\''+p.id+'\',this.value)" />'
-      +'</div>';
+    return '<div class="focus-card"><div class="focus-project">'+name+'</div>'
+      +'<input class="focus-input" type="text" placeholder="One thing this week\u2026" value="'+val+'" oninput="saveFocus(\''+p.id+'\',this.value)"/></div>';
   }).join('');
 }
 function saveFocus(id,val){focusValues[id]=val;saveAll();}
-
-function calcPct(p){
-  if(!p.ms.length)return 0;
-  return Math.round((p.ms.filter(function(m){return m.done;}).length/p.ms.length)*100);
-}
+function calcPct(p){if(!p.ms.length)return 0;return Math.round((p.ms.filter(function(m){return m.done;}).length/p.ms.length)*100);}
 function updateMetrics(){
   var total=0,done=0;
   projects.forEach(function(p){total+=p.ms.length;done+=p.ms.filter(function(m){return m.done;}).length;});
+  document.getElementById('proj-count').textContent=projects.length;
+  document.getElementById('fixed-count').textContent=projects.filter(function(p){return p.type==='fixed';}).length;
   document.getElementById('done-count').textContent=done;
   document.getElementById('overall-pct').textContent=(total?Math.round((done/total)*100):0)+'%';
 }
-
-function toggleMs(id){
-  var ms=document.getElementById('ms-'+id),btn=document.getElementById('tb-'+id);
-  var open=ms.classList.toggle('open');
-  btn.classList.toggle('open',open);
-  btn.querySelector('span').textContent=open?'hide milestones':'show milestones';
+function openNewProj(){document.getElementById('new-proj-form').classList.add('open');document.getElementById('add-proj-btn').style.display='none';document.getElementById('np-name').focus();}
+function closeNewProj(){document.getElementById('new-proj-form').classList.remove('open');document.getElementById('add-proj-btn').style.display='';document.getElementById('np-name').value='';document.getElementById('np-due').value='';}
+function saveNewProj(){
+  var name=document.getElementById('np-name').value.trim();if(!name){alert('Please enter a project name.');return;}
+  var type=document.getElementById('np-type').value;var due=document.getElementById('np-due').value.trim()||'';
+  var color=type==='fixed'?'#00326E':'#00BAD2';
+  projects.push({id:uid(),name:name,type:type,color:color,due:due,ms:[]});
+  closeNewProj();renderAll();saveAll();
 }
-function reopenMs(pid){
-  document.getElementById('ms-'+pid).classList.add('open');
-  var btn=document.getElementById('tb-'+pid);btn.classList.add('open');
-  btn.querySelector('span').textContent='hide milestones';
-}
+function deleteProject(pid){if(!confirm('Delete this project and all its milestones?'))return;projects=projects.filter(function(p){return p.id!==pid;});renderAll();saveAll();}
+function toggleMs(id){var ms=document.getElementById('ms-'+id),btn=document.getElementById('tb-'+id);var open=ms.classList.toggle('open');btn.classList.toggle('open',open);btn.querySelector('span').textContent=open?'hide milestones':'show milestones';}
+function reopenMs(pid){document.getElementById('ms-'+pid).classList.add('open');var btn=document.getElementById('tb-'+pid);btn.classList.add('open');btn.querySelector('span').textContent='hide milestones';}
 function toggleCheck(pid,mi){
-  var p=projects.find(function(x){return x.id===pid;});
-  p.ms[mi].done=!p.ms[mi].done;
+  var p=projects.find(function(x){return x.id===pid;});p.ms[mi].done=!p.ms[mi].done;
   var done=p.ms[mi].done;
   document.getElementById('mc-'+pid+'-'+mi).classList.toggle('done',done);
   document.getElementById('mt-'+pid+'-'+mi).classList.toggle('done',done);
-  var pct=calcPct(p);
-  document.getElementById('pp-'+pid).textContent=pct+'%';
-  document.getElementById('pf-'+pid).style.width=pct+'%';
+  var pct=calcPct(p);document.getElementById('pp-'+pid).textContent=pct+'%';document.getElementById('pf-'+pid).style.width=pct+'%';
   updateMetrics();saveAll();
 }
 function updateMsText(pid,mi,val){projects.find(function(x){return x.id===pid;}).ms[mi].t=val;saveAll();}
 function updateMsDue(pid,mi,val){projects.find(function(x){return x.id===pid;}).ms[mi].d=val;saveAll();}
-function deleteMs(pid,mi){
-  projects.find(function(x){return x.id===pid;}).ms.splice(mi,1);
-  renderProjects();updateMetrics();saveAll();reopenMs(pid);
-}
+function deleteMs(pid,mi){projects.find(function(x){return x.id===pid;}).ms.splice(mi,1);renderProjects();updateMetrics();saveAll();reopenMs(pid);}
 function addMs(pid){
   var tEl=document.getElementById('new-ms-t-'+pid),dEl=document.getElementById('new-ms-d-'+pid);
   var text=tEl.value.trim();if(!text)return;
@@ -303,7 +372,16 @@ function addMs(pid){
 }
 function addMsKey(e,pid){if(e.key==='Enter')addMs(pid);}
 function updateDue(pid,val){projects.find(function(x){return x.id===pid;}).due=val;saveAll();}
-
+function onDragStart(e,pid,mi){dragSrcPid=pid;dragSrcIdx=mi;e.dataTransfer.effectAllowed='move';setTimeout(function(){var el=document.getElementById('msr-'+pid+'-'+mi);if(el)el.classList.add('dragging');},0);}
+function onDragOver(e,pid,mi){e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.ms-row').forEach(function(r){r.classList.remove('drag-over');});var el=document.getElementById('msr-'+pid+'-'+mi);if(el)el.classList.add('drag-over');}
+function onDrop(e,pid,mi){
+  e.preventDefault();document.querySelectorAll('.ms-row').forEach(function(r){r.classList.remove('drag-over','dragging');});
+  if(dragSrcPid!==pid||dragSrcIdx===mi)return;
+  var p=projects.find(function(x){return x.id===pid;});
+  var moved=p.ms.splice(dragSrcIdx,1)[0];p.ms.splice(mi>dragSrcIdx?mi-1:mi,0,moved);
+  renderProjects();saveAll();reopenMs(pid);
+}
+function onDragEnd(){document.querySelectorAll('.ms-row').forEach(function(r){r.classList.remove('drag-over','dragging');});}
 function renderProjects(){
   var list=document.getElementById('proj-list');
   var chev='<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>';
@@ -312,37 +390,39 @@ function renderProjects(){
     var badge=isFixed?'<span class="type-badge badge-fixed">Fixed</span>':'<span class="type-badge badge-flex">Flexible</span>';
     var pct=calcPct(p);
     var rows=p.ms.map(function(m,i){
-      return '<div class="ms-row">'
+      return '<div class="ms-row" id="msr-'+p.id+'-'+i+'" draggable="true"'
+        +' ondragstart="onDragStart(event,\''+p.id+'\','+i+')"'
+        +' ondragover="onDragOver(event,\''+p.id+'\','+i+')"'
+        +' ondrop="onDrop(event,\''+p.id+'\','+i+')"'
+        +' ondragend="onDragEnd()">'
+        +'<span class="drag-handle" title="Drag to reorder">&#8286;</span>'
         +'<div class="ms-chk'+(m.done?' done':'')+'" id="mc-'+p.id+'-'+i+'" onclick="toggleCheck(\''+p.id+'\','+i+')" style="cursor:pointer"></div>'
-        +'<input class="ms-text-input'+(m.done?' done':'')+'" id="mt-'+p.id+'-'+i+'" value="'+m.t.replace(/"/g,'&quot;')+'" oninput="updateMsText(\''+p.id+'\','+i+',this.value)" />'
-        +'<input class="ms-due-input" value="'+m.d.replace(/"/g,'&quot;')+'" oninput="updateMsDue(\''+p.id+'\','+i+',this.value)" placeholder="date" />'
+        +'<input class="ms-text-input'+(m.done?' done':'')+'" id="mt-'+p.id+'-'+i+'" value="'+m.t.replace(/"/g,'&quot;')+'" oninput="updateMsText(\''+p.id+'\','+i+',this.value)"/>'
+        +'<input class="ms-due-input" value="'+m.d.replace(/"/g,'&quot;')+'" oninput="updateMsDue(\''+p.id+'\','+i+',this.value)" placeholder="date"/>'
         +'<button class="ms-del-btn" onclick="deleteMs(\''+p.id+'\','+i+')">&times;</button>'
         +'</div>';
     }).join('');
     return '<div class="proj-card '+(isFixed?'fixed':'flex')+'">'
-      +'<div class="card-top">'
-        +'<div style="flex:1;min-width:0;">'
-          +'<div class="proj-name">'+p.name+'</div>'
-          +'<input class="due-edit-input" value="'+p.due.replace(/"/g,'&quot;')+'" oninput="updateDue(\''+p.id+'\',this.value)" placeholder="Due date\u2026" />'
-        +'</div>'
-        +'<div class="card-right">'+badge+'<span class="pct" id="pp-'+p.id+'">'+pct+'%</span></div>'
-      +'</div>'
+      +'<div class="card-top"><div style="flex:1;min-width:0;">'
+        +'<div class="proj-name">'+p.name+'</div>'
+        +'<input class="due-edit-input" value="'+p.due.replace(/"/g,'&quot;')+'" oninput="updateDue(\''+p.id+'\',this.value)" placeholder="Due date\u2026"/>'
+      +'</div><div class="card-right">'+badge
+        +'<span class="pct" id="pp-'+p.id+'">'+pct+'%</span>'
+        +'<button class="proj-del-btn" onclick="deleteProject(\''+p.id+'\')" title="Delete project">&times;</button>'
+      +'</div></div>'
       +'<div class="prog-bar"><div class="prog-fill" id="pf-'+p.id+'" style="width:'+pct+'%;background:'+p.color+'"></div></div>'
       +'<button class="toggle-btn" id="tb-'+p.id+'" onclick="toggleMs(\''+p.id+'\')">'
         +'<span>show milestones</span>'+chev
       +'</button>'
-      +'<div class="ms-list" id="ms-'+p.id+'">'
-        +rows
+      +'<div class="ms-list" id="ms-'+p.id+'">'+rows
         +'<div class="add-ms-row">'
           +'<input class="add-ms-input" id="new-ms-t-'+p.id+'" type="text" placeholder="New milestone\u2026" onkeydown="addMsKey(event,\''+p.id+'\')" />'
           +'<input class="add-ms-due" id="new-ms-d-'+p.id+'" type="text" placeholder="date" onkeydown="addMsKey(event,\''+p.id+'\')" />'
           +'<button class="add-ms-btn" onclick="addMs(\''+p.id+'\')">+ add</button>'
         +'</div>'
-      +'</div>'
-      +'</div>';
+      +'</div></div>';
   }).join('');
 }
-
 loadAll();
 </script>
 </body>
