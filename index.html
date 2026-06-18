@@ -6,175 +6,188 @@
 <title>OD Manager Dashboard — Launch Housing</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;min-height:100vh;padding:2rem 1rem;}
-.container{max-width:780px;margin:0 auto;}
-h1{font-size:20px;font-weight:500;color:#1a1a1a;margin-bottom:4px;}
-.subtitle{font-size:13px;color:#999;margin-bottom:2rem;}
-.section-title{font-size:15px;font-weight:500;color:#1a1a1a;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.divider{border:none;border-top:1px solid #e5e5e5;margin:1.75rem 0;}
-.note{font-size:12px;color:#bbb;margin-top:1rem;}
-.save-indicator{font-size:11px;color:#0F6E56;margin-left:auto;opacity:0;transition:opacity 0.3s;}
-.save-indicator.show{opacity:1;}
-.add-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
-.add-row input{flex:1;min-width:160px;font-size:14px;padding:9px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;}
-.add-row input:focus{outline:none;border-color:#aaa;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F4F0;color:#1a1a1a;min-height:100vh;padding:2rem 1rem;}
+.container{max-width:800px;margin:0 auto;}
+.header-band{background:#00326E;border-radius:12px;padding:20px 24px;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.header-title{font-size:18px;font-weight:500;color:#fff;margin-bottom:3px;}
+.header-sub{font-size:12px;color:#9FC4E8;}
+.save-pill{font-size:11px;font-weight:500;color:#9FC4E8;background:rgba(255,255,255,0.12);border-radius:20px;padding:5px 14px;opacity:0;transition:opacity 0.3s;white-space:nowrap;}
+.save-pill.show{opacity:1;color:#5DCAA5;}
+.sec{margin-bottom:2rem;}
+.sec-label{font-size:11px;font-weight:600;color:#00326E;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sec-label::after{content:'';flex:1;height:1px;background:#E5E4E0;}
+.add-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.add-row input{flex:1;min-width:150px;font-size:13px;padding:9px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;}
+.add-row input:focus{outline:none;border-color:#00BAD2;}
 .add-row select{font-size:13px;padding:9px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;}
-.add-row button{font-size:13px;padding:9px 16px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;cursor:pointer;white-space:nowrap;}
-.add-row button:hover{background:#f0f0ee;}
-.todo-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;margin-bottom:6px;}
+.add-row button{font-size:13px;padding:9px 16px;border:none;border-radius:8px;background:#00326E;color:#fff;cursor:pointer;font-weight:500;white-space:nowrap;}
+.add-row button:hover{background:#002558;}
+.todo-item{display:flex;align-items:center;gap:10px;padding:10px 13px;background:#fff;border:1px solid #E8E7E3;border-radius:8px;margin-bottom:5px;}
 .todo-item:hover{border-color:#ccc;}
 .chk{width:17px;height:17px;border-radius:4px;border:1.5px solid #ccc;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.chk.done{background:#0F6E56;border-color:#0F6E56;}
+.chk.done{background:#00BAD2;border-color:#00BAD2;}
 .chk.done::after{content:'';display:block;width:5px;height:8px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(40deg) translateY(-1px);}
 .todo-label{flex:1;font-size:13px;color:#1a1a1a;}
-.todo-label.done{text-decoration:line-through;color:#bbb;}
-.badge{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;white-space:nowrap;}
-.tag-bau{background:#E6F1FB;color:#185FA5;}
-.tag-meeting{background:#EEEDFE;color:#534AB7;}
-.tag-project{background:#E1F5EE;color:#0F6E56;}
-.del-btn{background:none;border:none;cursor:pointer;color:#ccc;font-size:18px;padding:0 2px;line-height:1;}
+.todo-label.done{text-decoration:line-through;color:#aaa;}
+.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.tag-bau{background:#E6F1FB;color:#0C447C;}
+.tag-meeting{background:#EEEDFE;color:#3C3489;}
+.tag-project{background:#E1F5EE;color:#085041;}
+.del-btn{background:none;border:none;cursor:pointer;color:#ccc;font-size:16px;padding:0 2px;line-height:1;}
 .del-btn:hover{color:#c0392b;}
-.empty-msg{font-size:13px;color:#bbb;padding:8px 0;}
-.focus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}
-.focus-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:12px 14px;}
-.focus-project{font-size:10px;font-weight:600;color:#bbb;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;}
-.focus-input{width:100%;font-size:13px;color:#1a1a1a;background:none;border:none;border-bottom:1px solid #eee;padding:4px 0;outline:none;}
-.focus-input:focus{border-bottom-color:#aaa;}
+.empty-msg{font-size:13px;color:#aaa;padding:8px 0;}
+.focus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;}
+.focus-card{background:#fff;border:1px solid #E8E7E3;border-radius:10px;padding:12px 14px;border-top:3px solid #00BAD2;}
+.focus-project{font-size:10px;font-weight:600;color:#00326E;margin-bottom:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.focus-input{width:100%;font-size:12px;color:#1a1a1a;background:none;border:none;border-bottom:1px solid #eee;padding:3px 0;outline:none;}
+.focus-input:focus{border-bottom-color:#00BAD2;}
 .focus-input::placeholder{color:#ccc;font-style:italic;}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem;}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.5rem;}
 @media(max-width:500px){.metrics{grid-template-columns:repeat(2,1fr);}}
-.metric{background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:12px 14px;}
-.metric-label{font-size:12px;color:#bbb;margin-bottom:4px;}
-.metric-value{font-size:22px;font-weight:500;color:#1a1a1a;}
-.mv-red{color:#A32D2D;}
-.mv-green{color:#0F6E56;}
-.legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
-.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#999;}
-.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.proj-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:14px 16px;margin-bottom:10px;}
-.proj-card:hover{border-color:#ccc;}
+.metric{background:#fff;border:1px solid #E8E7E3;border-radius:8px;padding:13px 15px;border-top:3px solid #ddd;}
+.metric.m-navy{border-top-color:#00326E;}
+.metric.m-aqua{border-top-color:#00BAD2;}
+.metric.m-red{border-top-color:#A32D2D;}
+.metric.m-green{border-top-color:#0F6E56;}
+.metric-label{font-size:11px;color:#aaa;margin-bottom:5px;}
+.metric-value{font-size:24px;font-weight:500;color:#1a1a1a;}
+.legend{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#888;}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.proj-card{background:#fff;border:1px solid #E8E7E3;border-radius:10px;padding:15px 17px;margin-bottom:8px;border-left:3px solid #E8E7E3;}
+.proj-card.fixed{border-left-color:#00326E;}
+.proj-card.flex{border-left-color:#00BAD2;}
+.proj-card:hover{border-color:#ccc;border-left-color:inherit;}
 .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;}
-.proj-name{font-size:15px;font-weight:500;color:#1a1a1a;margin-bottom:4px;}
-.due-edit-input{font-size:12px;color:#999;background:none;border:none;border-bottom:1px solid transparent;padding:2px 0;outline:none;width:100%;max-width:260px;}
+.proj-name{font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:3px;}
+.due-edit-input{font-size:11px;color:#aaa;background:none;border:none;border-bottom:1px solid transparent;padding:1px 0;outline:none;width:100%;max-width:280px;}
 .due-edit-input:focus{border-bottom-color:#ddd;color:#1a1a1a;}
 .card-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.badge-fixed{background:#FCEBEB;color:#A32D2D;}
-.badge-flex{background:#E6F1FB;color:#185FA5;}
-.pct{font-size:13px;font-weight:500;color:#1a1a1a;min-width:32px;text-align:right;}
-.prog-bar{height:6px;background:#eee;border-radius:3px;overflow:hidden;margin-bottom:8px;}
+.type-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.badge-fixed{background:#E6F1FB;color:#0C447C;}
+.badge-flex{background:#E1F5EE;color:#085041;}
+.pct{font-size:12px;font-weight:500;color:#aaa;min-width:30px;text-align:right;}
+.prog-bar{height:5px;background:#eee;border-radius:3px;overflow:hidden;margin-bottom:9px;}
 .prog-fill{height:100%;border-radius:3px;transition:width 0.3s;}
-.toggle-btn{font-size:12px;color:#aaa;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;gap:4px;}
+.toggle-btn{font-size:11px;color:#aaa;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;gap:4px;}
 .toggle-btn:hover{color:#1a1a1a;}
-.toggle-btn svg{transition:transform 0.2s;width:12px;height:12px;stroke:#aaa;fill:none;}
+.toggle-btn svg{transition:transform 0.2s;width:11px;height:11px;stroke:#aaa;fill:none;stroke-width:2;}
 .toggle-btn.open svg{transform:rotate(180deg);}
-.ms-list{display:none;margin-top:10px;border-top:1px solid #f0f0f0;padding-top:10px;}
+.ms-list{display:none;margin-top:10px;border-top:1px solid #f0efeb;padding-top:10px;}
 .ms-list.open{display:block;}
 .ms-row{display:flex;align-items:center;gap:8px;padding:4px 0;}
-.ms-chk{width:16px;height:16px;border-radius:50%;border:1.5px solid #ccc;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.ms-chk.done{background:#0F6E56;border-color:#0F6E56;}
-.ms-chk.done::after{content:'';display:block;width:5px;height:8px;border:1.5px solid #fff;border-top:none;border-left:none;transform:rotate(40deg) translateY(-1px);}
-.ms-text-input{flex:1;font-size:13px;color:#1a1a1a;background:none;border:none;border-bottom:1px solid transparent;padding:2px 0;outline:none;min-width:0;}
+.ms-chk{width:15px;height:15px;border-radius:50%;border:1.5px solid #ccc;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.ms-chk.done{background:#00BAD2;border-color:#00BAD2;}
+.ms-chk.done::after{content:'';display:block;width:4px;height:7px;border:1.5px solid #fff;border-top:none;border-left:none;transform:rotate(40deg) translateY(-1px);}
+.ms-text-input{flex:1;font-size:12px;color:#1a1a1a;background:none;border:none;border-bottom:1px solid transparent;padding:2px 0;outline:none;min-width:0;}
 .ms-text-input:focus{border-bottom-color:#ddd;}
-.ms-text-input.done{text-decoration:line-through;color:#bbb;}
-.ms-due-input{font-size:11px;color:#aaa;background:none;border:none;border-bottom:1px solid transparent;padding:2px 0;outline:none;width:64px;text-align:right;}
+.ms-text-input.done{text-decoration:line-through;color:#aaa;}
+.ms-due-input{font-size:11px;color:#aaa;background:none;border:none;border-bottom:1px solid transparent;padding:2px 0;outline:none;width:60px;text-align:right;}
 .ms-due-input:focus{border-bottom-color:#ddd;color:#1a1a1a;}
-.ms-del-btn{background:none;border:none;cursor:pointer;color:#ddd;font-size:16px;padding:0;line-height:1;flex-shrink:0;}
+.ms-del-btn{background:none;border:none;cursor:pointer;color:#ddd;font-size:14px;padding:0;line-height:1;flex-shrink:0;}
 .ms-del-btn:hover{color:#c0392b;}
-.add-ms-row{display:flex;gap:6px;margin-top:10px;align-items:center;}
-.add-ms-input{flex:1;font-size:13px;color:#1a1a1a;background:#f8f8f6;border:1px solid #e5e5e5;border-radius:6px;padding:6px 10px;outline:none;}
-.add-ms-input:focus{border-color:#ccc;}
-.add-ms-due{width:64px;font-size:12px;color:#1a1a1a;background:#f8f8f6;border:1px solid #e5e5e5;border-radius:6px;padding:6px 8px;outline:none;}
-.add-ms-btn{font-size:12px;padding:6px 12px;border:1px solid #ddd;border-radius:6px;background:#fff;color:#1a1a1a;cursor:pointer;white-space:nowrap;}
-.add-ms-btn:hover{background:#f0f0ee;}
+.add-ms-row{display:flex;gap:6px;margin-top:10px;padding-top:9px;border-top:1px dashed #eee;align-items:center;}
+.add-ms-input{flex:1;font-size:12px;color:#1a1a1a;background:#F5F4F0;border:1px solid #E8E7E3;border-radius:6px;padding:5px 9px;outline:none;}
+.add-ms-input:focus{border-color:#00BAD2;}
+.add-ms-due{width:60px;font-size:11px;color:#1a1a1a;background:#F5F4F0;border:1px solid #E8E7E3;border-radius:6px;padding:5px 7px;outline:none;}
+.add-ms-btn{font-size:11px;padding:5px 12px;border:none;border-radius:6px;background:#00326E;color:#fff;cursor:pointer;font-weight:500;white-space:nowrap;}
+.add-ms-btn:hover{background:#002558;}
+.note{font-size:11px;color:#bbb;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #E8E7E3;}
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>OD Manager Dashboard</h1>
-  <p class="subtitle">Launch Housing · Organisational Development</p>
 
-  <div class="section-title">
-    &#9745; To-do list
-    <span class="save-indicator" id="save-ind">&#10003; Saved</span>
+<div class="header-band">
+  <div>
+    <div class="header-title">OD Manager Dashboard</div>
+    <div class="header-sub">Launch Housing &middot; Organisational Development</div>
   </div>
+  <span class="save-pill" id="save-ind">&#10003; Saved</span>
+</div>
+
+<div class="sec">
+  <div class="sec-label">&#9745; To-do list</div>
   <div class="add-row">
-    <input type="text" id="ti" placeholder="Add a task..." />
+    <input type="text" id="ti" placeholder="Add a task&hellip;" />
     <select id="tt"><option value="bau">BAU</option><option value="meeting">Meeting</option><option value="project">Project</option></select>
     <button onclick="addTodo()">+ Add</button>
   </div>
-  <div id="todo-list"><p class="empty-msg">No tasks yet — add one above.</p></div>
+  <div id="todo-list"><p class="empty-msg">No tasks yet &mdash; add one above.</p></div>
+</div>
 
-  <hr class="divider">
-
-  <div class="section-title">&#128197; This week's focus</div>
-  <p style="font-size:13px;color:#bbb;margin-bottom:12px;">One key action per project this week.</p>
+<div class="sec">
+  <div class="sec-label">&#128197; This week&rsquo;s focus</div>
   <div class="focus-grid" id="focus-grid"></div>
+</div>
 
-  <hr class="divider">
-
-  <div class="section-title">&#128202; Overview</div>
+<div class="sec">
+  <div class="sec-label">&#128202; Overview</div>
   <div class="metrics">
-    <div class="metric"><div class="metric-label">Projects</div><div class="metric-value">7</div></div>
-    <div class="metric"><div class="metric-label">Fixed deadlines</div><div class="metric-value mv-red">3</div></div>
-    <div class="metric"><div class="metric-label">Milestones done</div><div class="metric-value mv-green" id="done-count">0</div></div>
-    <div class="metric"><div class="metric-label">Progress</div><div class="metric-value" id="overall-pct">0%</div></div>
+    <div class="metric m-navy"><div class="metric-label">Projects</div><div class="metric-value">7</div></div>
+    <div class="metric m-red"><div class="metric-label">Fixed deadlines</div><div class="metric-value" style="color:#A32D2D">3</div></div>
+    <div class="metric m-green"><div class="metric-label">Milestones done</div><div class="metric-value" style="color:#0F6E56" id="done-count">0</div></div>
+    <div class="metric m-aqua"><div class="metric-label">Overall progress</div><div class="metric-value" id="overall-pct">0%</div></div>
   </div>
+</div>
 
-  <div class="section-title">&#128203; Projects</div>
+<div class="sec">
+  <div class="sec-label">&#128203; Projects</div>
   <div class="legend">
-    <div class="leg-item"><div class="leg-dot" style="background:#A32D2D"></div>Fixed deadline</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#185FA5"></div>Flexible</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#00326E"></div>Fixed deadline</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#00BAD2"></div>Flexible</div>
   </div>
   <div id="proj-list"></div>
+</div>
 
-  <p class="note">Click any milestone text or date to edit it &middot; Use "+ add" to add new milestones &middot; Click the date under a project name to edit it &middot; All changes save automatically</p>
+<p class="note">Click any milestone text or date to edit &middot; Use &ldquo;+ add&rdquo; to add new milestones &middot; Click the date under a project name to edit it &middot; All changes save automatically to this browser</p>
 </div>
 
 <script>
 var projects=[
-  {id:'transport',name:'Safe Transportation eLearning',type:'fixed',color:'#A32D2D',due:'Complete 11 Jul \u00b7 Roll out 21 Jul',ms:[
+  {id:'transport',name:'Safe Transportation eLearning',type:'fixed',color:'#00326E',due:'Complete 11 Jul \u00b7 Roll out 21 Jul',ms:[
     {t:'Client review of prototype',d:'25 Jun',done:false},
     {t:'Incorporate client feedback',d:'4 Jul',done:false},
     {t:'Final QA and sign-off',d:'9 Jul',done:false},
     {t:'Module complete and ready',d:'11 Jul',done:false},
     {t:'Roll out to all staff',d:'21 Jul',done:false}
   ]},
-  {id:'skills',name:'Skills Mapping',type:'fixed',color:'#A32D2D',due:'Complete end Aug \u00b7 Tool ready Sep',ms:[
+  {id:'skills',name:'Skills Mapping',type:'fixed',color:'#00326E',due:'Complete end Aug \u00b7 Tool ready Sep',ms:[
     {t:'Feedback on role profiles / skills complete',d:'Jul wk 1',done:false},
     {t:'Incorporate feedback into framework',d:'mid Jul',done:false},
     {t:'Draft Workforce Skills Career Pathways tool',d:'late Jul',done:false},
     {t:'Review and refine tool',d:'Aug',done:false},
     {t:'Tool finalised \u2014 ready for September',d:'end Aug',done:false}
   ]},
-  {id:'leadership',name:'Leadership Assessments',type:'fixed',color:'#A32D2D',due:'Complete end Aug \u00b7 For Sep PDR',ms:[
+  {id:'leadership',name:'Leadership Assessments',type:'fixed',color:'#00326E',due:'Complete end Aug \u00b7 For Sep PDR',ms:[
     {t:'Prototype review and feedback',d:'late Jun',done:false},
     {t:'Finalise assessment design',d:'mid Jul',done:false},
     {t:'Build assessment tool and materials',d:'late Jul',done:false},
     {t:'Brief managers on process',d:'Aug',done:false},
     {t:'Assessment ready for September PDR',d:'end Aug',done:false}
   ]},
-  {id:'induction',name:'Induction Refresh',type:'fixed',color:'#185FA5',due:'Phase 1: Aug \u00b7 Phase 2: mid Dec',ms:[
+  {id:'induction',name:'Induction Refresh',type:'fixed',color:'#00326E',due:'Phase 1: Aug \u00b7 Phase 2: mid Dec',ms:[
     {t:'Audit content and identify priority gaps',d:'Jul',done:false},
     {t:'Phase 1: update critical content',d:'late Jul',done:false},
     {t:'Phase 1 ready for August cohort',d:'Aug',done:false},
     {t:'Phase 2: redesign remaining content',d:'Oct\u2013Nov',done:false},
     {t:'Phase 2 finalised for February induction',d:'mid Dec',done:false}
   ]},
-  {id:'pdr',name:'Performance Development Reviews',type:'flex',color:'#185FA5',due:'Sep 2026 cycle',ms:[
+  {id:'pdr',name:'Performance Development Reviews',type:'flex',color:'#00BAD2',due:'Sep 2026 cycle',ms:[
     {t:'Review current PDR templates and process',d:'Jul',done:false},
     {t:'Consult with managers on pain points',d:'Jul',done:false},
     {t:'Draft revised framework',d:'Aug',done:false},
     {t:'Pilot with 1\u20132 teams',d:'Aug',done:false},
     {t:'Finalise and communicate to all staff',d:'Sep',done:false}
   ]},
-  {id:'board',name:'Board Training',type:'flex',color:'#185FA5',due:'Nov 2026',ms:[
+  {id:'board',name:'Board Training',type:'flex',color:'#00BAD2',due:'Nov 2026',ms:[
     {t:'Confirm training needs with board chair',d:'Aug',done:false},
     {t:'Design session outline and materials',d:'Sep',done:false},
     {t:'Brief relevant stakeholders',d:'Oct',done:false},
     {t:'Deliver training session',d:'Nov',done:false},
     {t:'Gather feedback and document outcomes',d:'Nov',done:false}
   ]},
-  {id:'language',name:'Embedding Inclusive Language Guide',type:'flex',color:'#185FA5',due:'Dec 2026',ms:[
+  {id:'language',name:'Embedding Inclusive Language Guide',type:'flex',color:'#00BAD2',due:'Dec 2026',ms:[
     {t:'Finalise and sign off the language guide',d:'Jul',done:false},
     {t:'Plan embedding strategy',d:'Aug',done:false},
     {t:'Develop supporting resources and comms',d:'Sep',done:false},
@@ -188,7 +201,7 @@ var todos=[],tid=0,focusValues={};
 function showSaved(){
   var el=document.getElementById('save-ind');
   el.classList.add('show');
-  setTimeout(function(){el.classList.remove('show');},1500);
+  setTimeout(function(){el.classList.remove('show');},1800);
 }
 function saveAll(){
   try{
@@ -233,11 +246,11 @@ function renderTodos(){
 function renderFocus(){
   var grid=document.getElementById('focus-grid');
   grid.innerHTML=projects.map(function(p){
-    var name=p.name.length>26?p.name.slice(0,24)+'\u2026':p.name;
+    var name=p.name.length>28?p.name.slice(0,26)+'\u2026':p.name;
     var val=(focusValues[p.id]||'').replace(/"/g,'&quot;');
     return '<div class="focus-card">'
       +'<div class="focus-project">'+name+'</div>'
-      +'<input class="focus-input" type="text" placeholder="This week\'s one thing\u2026" value="'+val+'" oninput="saveFocus(\''+p.id+'\',this.value)" />'
+      +'<input class="focus-input" type="text" placeholder="One thing this week\u2026" value="'+val+'" oninput="saveFocus(\''+p.id+'\',this.value)" />'
       +'</div>';
   }).join('');
 }
@@ -262,8 +275,7 @@ function toggleMs(id){
 }
 function reopenMs(pid){
   document.getElementById('ms-'+pid).classList.add('open');
-  var btn=document.getElementById('tb-'+pid);
-  btn.classList.add('open');
+  var btn=document.getElementById('tb-'+pid);btn.classList.add('open');
   btn.querySelector('span').textContent='hide milestones';
 }
 function toggleCheck(pid,mi){
@@ -294,23 +306,24 @@ function updateDue(pid,val){projects.find(function(x){return x.id===pid;}).due=v
 
 function renderProjects(){
   var list=document.getElementById('proj-list');
-  var chev='<svg viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+  var chev='<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>';
   list.innerHTML=projects.map(function(p){
-    var badge=p.type==='fixed'?'<span class="badge badge-fixed">Fixed</span>':'<span class="badge badge-flex">Flexible</span>';
+    var isFixed=p.type==='fixed';
+    var badge=isFixed?'<span class="type-badge badge-fixed">Fixed</span>':'<span class="type-badge badge-flex">Flexible</span>';
     var pct=calcPct(p);
     var rows=p.ms.map(function(m,i){
       return '<div class="ms-row">'
         +'<div class="ms-chk'+(m.done?' done':'')+'" id="mc-'+p.id+'-'+i+'" onclick="toggleCheck(\''+p.id+'\','+i+')" style="cursor:pointer"></div>'
-        +'<input class="ms-text-input'+(m.done?' done':'')+'" id="mt-'+p.id+'-'+i+'" value="'+m.t.replace(/"/g,'&quot;').replace(/&/g,'&amp;')+'" oninput="updateMsText(\''+p.id+'\','+i+',this.value)" />'
+        +'<input class="ms-text-input'+(m.done?' done':'')+'" id="mt-'+p.id+'-'+i+'" value="'+m.t.replace(/"/g,'&quot;')+'" oninput="updateMsText(\''+p.id+'\','+i+',this.value)" />'
         +'<input class="ms-due-input" value="'+m.d.replace(/"/g,'&quot;')+'" oninput="updateMsDue(\''+p.id+'\','+i+',this.value)" placeholder="date" />'
         +'<button class="ms-del-btn" onclick="deleteMs(\''+p.id+'\','+i+')">&times;</button>'
         +'</div>';
     }).join('');
-    return '<div class="proj-card">'
+    return '<div class="proj-card '+(isFixed?'fixed':'flex')+'">'
       +'<div class="card-top">'
         +'<div style="flex:1;min-width:0;">'
           +'<div class="proj-name">'+p.name+'</div>'
-          +'<input class="due-edit-input" value="'+p.due.replace(/"/g,'&quot;')+'" oninput="updateDue(\''+p.id+'\',this.value)" placeholder="Due date / notes" />'
+          +'<input class="due-edit-input" value="'+p.due.replace(/"/g,'&quot;')+'" oninput="updateDue(\''+p.id+'\',this.value)" placeholder="Due date\u2026" />'
         +'</div>'
         +'<div class="card-right">'+badge+'<span class="pct" id="pp-'+p.id+'">'+pct+'%</span></div>'
       +'</div>'
